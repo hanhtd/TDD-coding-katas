@@ -7,8 +7,8 @@ import static java.util.Arrays.asList;
 
 public class StringCalculator {
 
-    public static final String COMMA_PARAMETER_SEPARATOR = ",";
-    public static final String NEW_LINE_PARAMETER_SEPARATOR = "\n";
+    public static final String COMMA_DELIMITER = ",";
+    public static final String NEW_LINE_DELIMITER = "\n";
     public static final List<String> INVALID_PARTS = List.of(
         ",\n",
         "\n,",
@@ -23,10 +23,10 @@ public class StringCalculator {
             return 0;
         }
 
-        String[] firstSpitedItemArr = numbersAsString.split(COMMA_PARAMETER_SEPARATOR);
+        String[] firstSpitedItemArr = numbersAsString.split(COMMA_DELIMITER);
         List<String> secondSpitedItemList = new ArrayList<>();
         for (String parameter : firstSpitedItemArr) {
-            String[] numberItems = parameter.split(NEW_LINE_PARAMETER_SEPARATOR);
+            String[] numberItems = parameter.split(NEW_LINE_DELIMITER);
             secondSpitedItemList.addAll(asList(numberItems));
         }
 
