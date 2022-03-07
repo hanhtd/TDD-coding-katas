@@ -77,7 +77,11 @@ public class StringCalculatorUnitTest {
     private Object testDataWithDelimiterDeclaration() {
         return new Object[][]{
             /*"//[delimiter]\n[numbers…]"*/
-            { "//;\n1;2", 3 }
+            { "//;\n1;2",       3 },
+            { "//;\n",          0 },
+            { "//;\n1",         1 },
+            { "//;\n1;4\n5",    10},
+            { "//;\n1;4,5",     10},
         };
     }
 

@@ -16,25 +16,39 @@ public class StringCalculator {
         "\n\n"
     );
 
-    public int add(String numbersAsString) {
-        validate(numbersAsString);
+    public int add(String calculatorString) {
+        validate(calculatorString);
 
-        if (numbersAsString.isEmpty()) {
+        String newDelimiter = null;
+        String numberAsString = calculatorString;
+        if (calculatorString.startsWith("//")) {
+            newDelimiter = calculatorString.substring(2, 3);
+            numberAsString = calculatorString.substring(4);
+        }
+        if (numberAsString.isEmpty()) {
             return 0;
         }
 
-        String[] firstSpitedItemArr = numbersAsString.split(COMMA_DELIMITER);
-        List<String> secondSpitedItemList = new ArrayList<>();
-        for (String parameter : firstSpitedItemArr) {
-            String[] numberItems = parameter.split(NEW_LINE_DELIMITER);
-            secondSpitedItemList.addAll(asList(numberItems));
+        List<String> firstSpitedItemArr = parseByDelimiter(asList(numberAsString), COMMA_DELIMITER);
+        List<String> secondSpitedItemList = parseByDelimiter(firstSpitedItemArr, NEW_LINE_DELIMITER);
+        if (newDelimiter != null) {
+            secondSpitedItemList = parseByDelimiter(secondSpitedItemList, newDelimiter);
         }
 
         int sum = 0;
-        for (String numberItem : secondSpitedItemList) {
+        for (String numberItem :secondSpitedItemList) {
             sum += Integer.parseInt(numberItem);
         }
         return sum;
+    }
+
+    private List<String> parseByDelimiter(List<String> strings, String delimiter) {
+        List<String> result = new ArrayList<>();
+        for (String string : strings) {
+            String[] items = string.split(delimiter);
+            result.addAll(asList(items));
+        }
+        return result;
     }
 
     private void validate(String numbersAsString) {
