@@ -107,6 +107,13 @@ public class StringCalculatorUnitTest {
         assertThat(calculator.add("//[*]\n1*2")).isEqualTo(3);
         assertThat(calculator.add("//[***]\n1***2***3")).isEqualTo(6);
     }
+
+    @Test
+    public void test_that_string_calculator_supports_mutiple_delimiter_of_any_length() {
+        StringCalculator calculator = new StringCalculator();
+
+        assertThat(calculator.add("//[*][%]\n1*2%3")).isEqualTo(6);
+    }
 //    @Test
 //    public void string_splitting_test() {
 //        assertThat("\n".split("\n")).isEmpty();

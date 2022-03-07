@@ -21,17 +21,22 @@ public class StringCalculator {
     public int add(String calculatorString) {
         validate(calculatorString);
 
-        String newDelimiter = null;
+        List<String> delimiterList = new ArrayList<>();
+        delimiterList.add(COMMA_DELIMITER);
+        delimiterList.add(NEW_LINE_DELIMITER);
         String numberAsString = calculatorString;
 
         if (calculatorString.startsWith("//[")) {
             //begin delimiter //[
-            newDelimiter = calculatorString.substring(3, calculatorString.indexOf("]"));
-            numberAsString = calculatorString.substring(calculatorString.indexOf("]") + 2);
+            String newDelimiter = calculatorString.substring(3, calculatorString.lastIndexOf("]"));
+            delimiterList.addAll(asList(newDelimiter.split(Pattern.quote("]["))));
+
+            numberAsString = calculatorString.substring(calculatorString.lastIndexOf("]") + 2);
             //end delimiter ]\n
         } else if (calculatorString.startsWith("//")) {
             //begin delimiter //
-            newDelimiter = calculatorString.substring(2, 3);
+            String newDelimiter = calculatorString.substring(2, 3);
+            delimiterList.add(newDelimiter);
             numberAsString = calculatorString.substring(4);
             //end delimiter \n
         }
@@ -39,15 +44,14 @@ public class StringCalculator {
             return 0;
         }
 
-        List<String> firstSpitedItemArr = parseByDelimiter(asList(numberAsString), COMMA_DELIMITER);
-        List<String> secondSpitedItemList = parseByDelimiter(firstSpitedItemArr, NEW_LINE_DELIMITER);
-        if (newDelimiter != null) {
-            secondSpitedItemList = parseByDelimiter(secondSpitedItemList, newDelimiter);
+        List<String> numberItems = asList(numberAsString);
+        for (String additionalOne : delimiterList) {
+            numberItems = parseByDelimiter(numberItems, additionalOne);
         }
 
         int sum = 0;
         List<Integer> negativeNumbers = new ArrayList<>();
-        for (String numberItem : secondSpitedItemList) {
+        for (String numberItem : numberItems) {
             int number = Integer.parseInt(numberItem);
             if (number < 0) {
                 negativeNumbers.add(number);
