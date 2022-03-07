@@ -40,6 +40,10 @@ public class StringCalculatorUnitTest {
 
             { "1,4\n5", 10 },
             { "1\n4,5", 10 },
+
+            // number > 1_000 will be ignored
+            { "1000,5", 1_005 },
+            { "1001,5", 5 },
         };
     }
 
@@ -85,6 +89,24 @@ public class StringCalculatorUnitTest {
         };
     }
 
+    @Test
+    public void test_that_string_calculator_will_throw_negatives_not_allowed2() {
+        //TODO refactor to unit 5 and parameterize this test case
+        StringCalculator calculator = new StringCalculator();
+
+        assertThatThrownBy(() -> calculator.add("-1,-3")).isExactlyInstanceOf(IllegalArgumentException.class)
+            .hasMessage("negatives not allowed: -1,-3");
+    }
+
+    @Test
+    public void test_that_string_calculator_support_any_length_of_delimiter() {
+        StringCalculator calculator = new StringCalculator();
+
+        assertThat(calculator.add("//[***]\n1***2")).isEqualTo(3);
+        assertThat(calculator.add("//[**]\n1**2")).isEqualTo(3);
+        assertThat(calculator.add("//[*]\n1*2")).isEqualTo(3);
+        assertThat(calculator.add("//[***]\n1***2***3")).isEqualTo(6);
+    }
 //    @Test
 //    public void string_splitting_test() {
 //        assertThat("\n".split("\n")).isEmpty();
