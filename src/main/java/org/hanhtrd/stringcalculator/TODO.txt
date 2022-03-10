@@ -1,1 +1,2 @@
 1. Improve automation refactoring skill by using IDEA tool
+2. Prefer baby step and short iteration (RED - GREEN - YELLOW)
