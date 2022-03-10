@@ -20,11 +20,11 @@ public class StringCalculator {
 
     public int add(String calculatorString) {
         String numberListAsString = getNumberListAsString(calculatorString);
-        validate(calculatorString);
-        List<String> delimiterList = getDelimiterList(calculatorString);
+        validate(numberListAsString);
         if (numberListAsString.isEmpty()) {
             return 0;
         }
+        List<String> delimiterList = getDelimiterList(calculatorString);
         List<String> stringNumbers = parseByDelimiters(numberListAsString, delimiterList);
         return calculateSumOfStringNumbers(stringNumbers);
     }
