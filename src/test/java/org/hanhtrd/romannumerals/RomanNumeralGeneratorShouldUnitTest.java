@@ -1,6 +1,7 @@
 package org.hanhtrd.romannumerals;
 
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 //https://www.youtube.com/watch?v=iZjgj1S0FCY&t=244s
