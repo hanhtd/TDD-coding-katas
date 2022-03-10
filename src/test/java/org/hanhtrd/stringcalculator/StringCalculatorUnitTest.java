@@ -71,7 +71,7 @@ public class StringCalculatorUnitTest {
     }
 
     @Test
-    public void test_that_string_calculator_supports_mutiple_delimiter_of_any_length() {
+    public void test_that_string_calculator_supports_multiple_delimiter_of_any_length() {
         StringCalculator calculator = new StringCalculator();
 
         assertThat(calculator.add("//[*][%]\n1*2%3")).isEqualTo(6);

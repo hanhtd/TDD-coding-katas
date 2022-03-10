@@ -20,31 +20,13 @@ public class StringCalculator {
 
     public int add(String calculatorString) {
         validate(calculatorString);
-
-        List<String> delimiterList = new ArrayList<>();
-        delimiterList.add(COMMA_DELIMITER);
-        delimiterList.add(NEW_LINE_DELIMITER);
-        String numberAsString = calculatorString;
-
-        if (calculatorString.startsWith("//[")) {
-            //begin delimiter //[
-            String newDelimiter = calculatorString.substring(3, calculatorString.lastIndexOf("]"));
-            delimiterList.addAll(asList(newDelimiter.split(Pattern.quote("]["))));
-
-            numberAsString = calculatorString.substring(calculatorString.lastIndexOf("]") + 2);
-            //end delimiter ]\n
-        } else if (calculatorString.startsWith("//")) {
-            //begin delimiter //
-            String newDelimiter = calculatorString.substring(2, 3);
-            delimiterList.add(newDelimiter);
-            numberAsString = calculatorString.substring(4);
-            //end delimiter \n
-        }
-        if (numberAsString.isEmpty()) {
+        String numberListAsString = getNumberListAsString(calculatorString);
+        List<String> delimiterList = getDelimiterList(calculatorString);
+        if (numberListAsString.isEmpty()) {
             return 0;
         }
 
-        List<String> numberItems = asList(numberAsString);
+        List<String> numberItems = asList(numberListAsString);
         for (String additionalOne : delimiterList) {
             numberItems = parseByDelimiter(numberItems, additionalOne);
         }
@@ -63,9 +45,42 @@ public class StringCalculator {
         if (negativeNumbers.isEmpty()) {
             return sum;
         } else {
-            throw new IllegalArgumentException("negatives not allowed: "  + negativeNumbers.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            throw new IllegalArgumentException("negatives not allowed: " + negativeNumbers.stream().map(String::valueOf).collect(Collectors.joining(",")));
         }
+    }
 
+    private List<String> getDelimiterList(String calculatorString) {
+        List<String> delimiterList = new ArrayList<>();
+        delimiterList.add(COMMA_DELIMITER);
+        delimiterList.add(NEW_LINE_DELIMITER);
+
+        if (calculatorString.startsWith("//[")) {
+            //begin delimiter //[
+            String newDelimiter = calculatorString.substring(3, calculatorString.lastIndexOf("]"));
+            delimiterList.addAll(asList(newDelimiter.split(Pattern.quote("]["))));
+            //end delimiter ]\n
+        } else if (calculatorString.startsWith("//")) {
+            //begin delimiter //
+            String newDelimiter = calculatorString.substring(2, 3);
+            delimiterList.add(newDelimiter);
+            //end delimiter \n
+        }
+        return delimiterList;
+    }
+
+    private String getNumberListAsString(String calculatorString) {
+        String numberAsString = calculatorString;
+
+        if (calculatorString.startsWith("//[")) {
+            //begin delimiter //[
+            numberAsString = calculatorString.substring(calculatorString.lastIndexOf("]") + 2);
+            //end delimiter ]\n
+        } else if (calculatorString.startsWith("//")) {
+            //begin delimiter //
+            numberAsString = calculatorString.substring(4);
+            //end delimiter \n
+        }
+        return numberAsString;
     }
 
     private List<String> parseByDelimiter(List<String> strings, String delimiter) {
