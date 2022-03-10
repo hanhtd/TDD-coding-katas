@@ -19,33 +19,43 @@ public class StringCalculator {
     );
 
     public int add(String calculatorString) {
-        validate(calculatorString);
         String numberListAsString = getNumberListAsString(calculatorString);
+        validate(calculatorString);
         List<String> delimiterList = getDelimiterList(calculatorString);
         if (numberListAsString.isEmpty()) {
             return 0;
         }
+        List<String> stringNumbers = parseByDelimiters(numberListAsString, delimiterList);
+        return calculateSumOfStringNumbers(stringNumbers);
+    }
 
-        List<String> numberItems = asList(numberListAsString);
-        for (String additionalOne : delimiterList) {
-            numberItems = parseByDelimiter(numberItems, additionalOne);
+    private List<String> parseByDelimiters(String numberListAsString, List<String> delimiterList) {
+        // TODO: Refactoring later
+        List<String> stringNumbers = asList(numberListAsString);
+        for (String delimiter : delimiterList) {
+            List<String> result = new ArrayList<>();
+            for (String string : stringNumbers) {
+                String[] items = string.split(Pattern.quote(delimiter));
+                result.addAll(asList(items));
+            }
+            stringNumbers = result;
         }
+        return stringNumbers;
+    }
 
-        int sum = 0;
-        List<Integer> negativeNumbers = new ArrayList<>();
-        for (String numberItem : numberItems) {
-            int number = Integer.parseInt(numberItem);
-            if (number < 0) {
-                negativeNumbers.add(number);
-            }
-            if (number <= 1000) {
-                sum += number;
-            }
-        }
-        if (negativeNumbers.isEmpty()) {
-            return sum;
+    private String getNumberListAsString(String calculatorString) {
+        if (calculatorString.startsWith("//")) {
+            // Separator between delimiter declaration and number list
+            int indexOfSeparator = calculatorString.indexOf('\n');
+            return calculatorString.substring(indexOfSeparator + 1);
         } else {
-            throw new IllegalArgumentException("negatives not allowed: " + negativeNumbers.stream().map(String::valueOf).collect(Collectors.joining(",")));
+            return calculatorString;
+        }
+    }
+
+    private void validate(String numbersAsString) {
+        if (INVALID_PARTS.stream().anyMatch(numbersAsString::contains)) {
+            throw new IllegalArgumentException("Input value is invalid");
         }
     }
 
@@ -55,46 +65,31 @@ public class StringCalculator {
         delimiterList.add(NEW_LINE_DELIMITER);
 
         if (calculatorString.startsWith("//[")) {
-            //begin delimiter //[
-            String newDelimiter = calculatorString.substring(3, calculatorString.lastIndexOf("]"));
+            String newDelimiter = calculatorString.substring(3, calculatorString.lastIndexOf(']'));
             delimiterList.addAll(asList(newDelimiter.split(Pattern.quote("]["))));
-            //end delimiter ]\n
         } else if (calculatorString.startsWith("//")) {
-            //begin delimiter //
             String newDelimiter = calculatorString.substring(2, 3);
             delimiterList.add(newDelimiter);
-            //end delimiter \n
         }
         return delimiterList;
     }
 
-    private String getNumberListAsString(String calculatorString) {
-        String numberAsString = calculatorString;
-
-        if (calculatorString.startsWith("//[")) {
-            //begin delimiter //[
-            numberAsString = calculatorString.substring(calculatorString.lastIndexOf("]") + 2);
-            //end delimiter ]\n
-        } else if (calculatorString.startsWith("//")) {
-            //begin delimiter //
-            numberAsString = calculatorString.substring(4);
-            //end delimiter \n
+    private int calculateSumOfStringNumbers(List<String> stringNumbers) {
+        int sum = 0;
+        List<Integer> negativeNumbers = new ArrayList<>();
+        for (String stringNumber : stringNumbers) {
+            int number = Integer.parseInt(stringNumber);
+            if (number < 0) {
+                negativeNumbers.add(number);
+            }
+            if (number <= 1000) {
+                sum += number;
+            }
         }
-        return numberAsString;
-    }
-
-    private List<String> parseByDelimiter(List<String> strings, String delimiter) {
-        List<String> result = new ArrayList<>();
-        for (String string : strings) {
-            String[] items = string.split(Pattern.quote(delimiter));
-            result.addAll(asList(items));
+        if (!negativeNumbers.isEmpty()) {
+            throw new IllegalArgumentException("negatives not allowed: " + negativeNumbers.stream().map(String::valueOf).collect(Collectors.joining(",")));
         }
-        return result;
-    }
 
-    private void validate(String numbersAsString) {
-        if (INVALID_PARTS.stream().anyMatch(numbersAsString::contains)) {
-            throw new IllegalArgumentException("Input value is invalid");
-        }
+        return sum;
     }
 }
