@@ -1,0 +1,13 @@
+TASKs:
+
++ Design class with CRC card or how to recognize roles(responsibilities) and interaction
++ Config IDE:
+-> auto creation production class in right location
+-> auto throw UnsupportedOperationException for new empty method
+
+QUESTION:
++ design method for collaborators or not ?
++ why acceptance test is using mock (Console)
++ In this kata we followed deep-first strategy for implementing , how we can follow wide-first strategy ?
++ Why don't directly Console in Account but use PrintStatement instead ?
++ Does it relate to Onion Arch (Clean arch) principle ?
