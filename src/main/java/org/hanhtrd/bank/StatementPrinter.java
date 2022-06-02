@@ -1,7 +1,9 @@
 package org.hanhtrd.bank;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+
+import static java.util.Comparator.comparing;
 
 public class StatementPrinter {
 
@@ -20,8 +22,9 @@ public class StatementPrinter {
         if (transactions.isEmpty()) {
             return;
         }
-        _calculator.calculate(transactions)
+        _calculator.calculate(new HashSet<>(transactions))
             .stream()
+            .sorted(comparing(PrintableStatement::getDate).reversed())
             .map(_lineFormater::format)
             .forEach(_console::print);
     }

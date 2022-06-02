@@ -15,10 +15,6 @@ public class Account {
     public void printStatement() {
         List<Transaction> transactions = _transactionRepository.all();
         _statementPrinter.print(transactions);
-        //_console.print("DATE | AMOUNT | BALANCE");
-        // sort
-        // translate into string
-        // loop and pass to _console.
     }
 
     public void deposit(int amount) {
