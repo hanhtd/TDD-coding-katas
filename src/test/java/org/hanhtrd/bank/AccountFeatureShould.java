@@ -3,7 +3,7 @@ package org.hanhtrd.bank;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.inOrder;
@@ -12,14 +12,14 @@ import static org.mockito.Mockito.inOrder;
 @ExtendWith(MockitoExtension.class)
 public class AccountFeatureShould {
 
-    @Mock
-    private Console console;
+    @Spy
+    private Console console = new Console();
 
     @Test public void
     print_bank_statement_to_the_console() {
         // Arrange
         TransactionRepository repository = new TransactionRepository(new Clock());
-        StatementPrinter statementPrinter = new StatementPrinter(new Console());
+        StatementPrinter statementPrinter = new StatementPrinter(console, new Calculator(), new LineFormater());
         Account account = new Account(repository, statementPrinter);
         account.deposit(1_000);
         account.withdrawal(100);
