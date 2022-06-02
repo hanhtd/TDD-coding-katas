@@ -9,12 +9,12 @@ public class StatementPrinter {
 
     private final Console _console;
     private final Calculator _calculator;
-    private final LineFormater _lineFormater;
+    private final LineFormater _lineFormatter;
 
-    public StatementPrinter(Console console, Calculator calculator, LineFormater lineFormater) {
+    public StatementPrinter(Console console, Calculator calculator, LineFormater lineFormatter) {
         _console = console;
         _calculator = calculator;
-        _lineFormater = lineFormater;
+        _lineFormatter = lineFormatter;
     }
 
     public void print(List<Transaction> transactions) {
@@ -25,19 +25,11 @@ public class StatementPrinter {
         _calculator.calculate(new HashSet<>(transactions))
             .stream()
             .sorted(comparing(PrintableStatement::getDate).reversed())
-            .map(_lineFormater::format)
+            .map(_lineFormatter::format)
             .forEach(_console::print);
     }
 
     private void printHeader() {
         _console.print("DATE | AMOUNT | BALANCE");
-    }
-
-    private String stringify(Transaction transaction) {
-        return transaction.getDate() + " | " + stringifyAmount(transaction.getAmount()) + " | " + stringifyAmount(transaction.getAmount());
-    }
-
-    private String stringifyAmount(int amount) {
-        return amount + ".00";
     }
 }

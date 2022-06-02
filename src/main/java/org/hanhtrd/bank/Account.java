@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Account {
 
-    private TransactionRepository _transactionRepository;
+    private final TransactionRepository _transactionRepository;
     private final StatementPrinter _statementPrinter;
 
     public Account(TransactionRepository transactionRepository, StatementPrinter statementPrinter) {
