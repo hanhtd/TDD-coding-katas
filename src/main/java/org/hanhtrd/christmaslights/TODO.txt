@@ -1,0 +1,30 @@
+WRONG - TEST LIST
+
++ write several test cases for single instruction that turn on lights
++ write several test cases for single instruction that turn off lights
+
++ write several test cases for single instruction that toggle lights
++ write a test case for multiple instruction that turn on-off lights
++ write a test case for multiple instruction that turn on-toggle lights
++ write a test case for multiple instruction that turn off-toggle lights
++ write several test cases for multiple instruction that on-off-toggle; on-toggle-off lights
++ write final test case to answer question for part-one of kata
+
+TASKs:
+
+
+
+REFLECTION + QUESTION:
++ Qua voi de coding, khong danh du thoi gian de hieu ve yeu cau bai toan
++ Khong danh thoi gian de thiet ket test list (define test case, sap xep thu tu cho moi test case) -> driven design
++ Thuc hanh khong co chu y, khong biet minh dang luyen tap voi kien thuc va ky nang nao. Cai gi minh can mai rua qua coding kata
+session nay: Tham chi con bi lac de: de bai expect out-side in trong khi lai lam theo kieu inside out
+    Xac dinh technique va skill minh can luyen tap trong session toi, truoc khi lua chon bai coding kata cho session do.
+    Dua vao model ve hoc (theo goi y tu The ‘4C’ learning model https://leanpub.com/techagilecoach)
++ Lam bai coding kata rat vat va va cham chap -> do thieu hut hieu biet ve cac technique va thieu hut ky nang tren cac technique nay
+[Cac small technique and skill]
+    Dung learning hours model (from https://sammancoaching.org/learning_hours/index.html) de tu luyen cac small skill and technique cho thanh thao
+    Giai doan dau, tu lam viec doc lap/mot minh de hoc, tim hieu va luyen tap qua learning hours va coding kata day giup  tu tin hon
+
+
+How to organize and working on deliberate practice efficiency.
